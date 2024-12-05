@@ -15,7 +15,7 @@ class CannonFrenzy:
 
         # Stop the game if pygame fails to initialize
         if not pygame.get_init():
-            print("Failed to initialize Pygame!")
+            print("Failed to initialize Pygame!!!")
             sys.exit()
 
         # Set game properties
@@ -81,7 +81,7 @@ class CannonFrenzy:
             self.screen.blit(title_text, title_rect)
 
             # Display start instructions
-            start_text = self.small_font.render("Press S to Start", True, "Black")
+            start_text = self.small_font.render("Press S to Start Up", True, "Black")
             start_rect = start_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
             self.screen.blit(start_text, start_rect)
 
@@ -202,7 +202,7 @@ class CannonFrenzy:
         sunset_image = pygame.image.load("assets/images/sunset_pixel.jpg")
         self.screen.blit(sunset_image, (0, 0))
         self.font = pygame.font.Font(None, 50)
-        game_over_text = self.font.render("GAME OVER!", True, "Black")
+        game_over_text = self.font.render("GAME OVER!!", True, "Black")
         game_over_rect = game_over_text.get_rect(center=(400, 200))
         self.screen.blit(game_over_text, game_over_rect)
 
