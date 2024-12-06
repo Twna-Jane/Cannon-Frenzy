@@ -3,7 +3,7 @@
 **Cannon Frenzy** is an engaging and fast-paced game where players control a cannon to achieve specific objectives. This repository contains the source code and all the assets necessary to run and play Cannon Frenzy.
 
 ---
-
+Game is inspired by Angry Birds
 ## Table of Contents
 
 1. [Features](#features)
