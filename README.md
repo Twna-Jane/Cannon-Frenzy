@@ -65,7 +65,7 @@ Run the `main.py` file to play the game.
    - Hitting multiple targets in a row grants combo bonuses.
 
 4. **Game Over**:
-   The game ends when you run out of cannonballs or time.
+   The game ends when you run out of cannonballs.
 
 ---
 
