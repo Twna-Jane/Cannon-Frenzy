@@ -36,6 +36,26 @@ class CannonFrenzy:
         # Scoreboard
         self.scoreboard = Scoreboard(self.screen)
 
+        # Sounds
+        self.game_start_sound = pygame.mixer.Sound("assets/audio/sfx/game_start.wav")
+        self.game_start_sound.set_volume(0.5)
+
+        self.game_over_sound = pygame.mixer.Sound("assets/audio/mixkit-funny-game-over-2878.wav")
+        self.game_over_sound.set_volume(0.9)
+        self.game_over_sound_played = False
+
+        self.target_hit_sound = pygame.mixer.Sound("assets/audio/sfx/target_hit.ogg")
+        self.target_hit_sound.set_volume(0.7)
+
+        # Level Transition sound
+        self.level_entry_sound = pygame.mixer.Sound("assets/audio/mixkit-game-level-completed-2059.wav")
+        self.level_entry_sound.set_volume(0.5)
+
+        # Menu and gameplay background music
+        self.menu_music = "assets/audio/mixkit-games-music-706.mp3"
+        self.background_music = "assets/audio/mixkit-deep-urban-623.mp3"
+        pygame.mixer.music.set_volume(0.3)
+
         # Sound manager
         self.sound_manager = SoundManager()
         self.game_over_sound_played = False
@@ -60,6 +80,8 @@ class CannonFrenzy:
         self.combo_count = 0
         self.max_combo_streak = 0
 
+        # Flag for tracking background music
+        self.background_music_playing = False
 
     def reset_game(self):
         """Resets the game state."""
@@ -74,12 +96,19 @@ class CannonFrenzy:
         self.combo_count = 0
         self.max_combo_streak = 0
 
+    def start_menu(self):
+        """Displays the start menu with music."""
+        pygame.mixer.music.load(self.menu_music)
+        pygame.mixer.music.play(-1)
+
+        self.menu.start_menu()
+        pygame.mixer.music.stop()
+        self.game_start_sound.play()
 
     def run(self):
         """Runs the game."""
-
         # Start menu
-        self.menu.start_menu()
+        self.start_menu()
 
         # Game loop
         while True:
@@ -97,15 +126,23 @@ class CannonFrenzy:
                     # Press 'M' key to go back to the start menu
                     if event.key == pygame.K_m:
                         self.reset_game()
-                        self.menu.start_menu()
+                        self.start_menu()
 
             # Game over condition
-            if self.cannon.cannonballs_left == 0 and len(self.cannon.cannonballs) == 0:
+            if self.cannon.cannonballs_left == 0 and len(self.cannonballs) == 0:
                 self.game_over = True
 
             if self.game_over:
                 self.handle_game_over()
+                pygame.mixer.music.stop()  # Stop background music on game over
+                self.background_music_playing = False
             else:
+                # Play background music if not already playing
+                if not self.background_music_playing:
+                    pygame.mixer.music.load(self.background_music)
+                    pygame.mixer.music.play(-1)
+                    self.background_music_playing = True
+
                 # Determine background image according to level number
                 if self.current_level.level_number % 2 == 0:
                     self.level_bg_image = pygame.image.load("assets/images/backgrounds/desert.png")
@@ -157,7 +194,6 @@ class CannonFrenzy:
 
             pygame.display.update()
             self.clock.tick(self.fps)
-
 
     def handle_game_over(self):
         """Displays the game over screen."""
